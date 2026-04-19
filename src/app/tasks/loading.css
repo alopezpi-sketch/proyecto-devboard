@@ -1,0 +1,53 @@
+.loading-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.skeleton-summary {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.skeleton-card {
+  background: #e5e7eb;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.skeleton-title {
+  width: 60%;
+  height: 16px;
+  background: #d1d5db;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.skeleton-badge {
+  width: 80px;
+  height: 14px;
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.skeleton-box {
+  width: 80px;
+  height: 20px;
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+/* 🔥 ANIMACIÓN */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.skeleton-card,
+.skeleton-title,
+.skeleton-badge,
+.skeleton-box {
+  animation: pulse 1.5s ease-in-out infinite;
+}
