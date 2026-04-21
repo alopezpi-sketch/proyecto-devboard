@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 export function useAsync<T>(
   asyncFunction: (signal: AbortSignal) => Promise<T>,
-  dependencies:  React.DependencyList = []
+  dependencies: React.DependencyList = []
 ) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,9 @@ export function useAsync<T>(
     return () => {
       controller.abort();
     };
-  }, dependencies);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, dependencies);
+  
   return { data, loading, error };
 }

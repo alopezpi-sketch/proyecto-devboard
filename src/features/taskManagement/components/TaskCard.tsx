@@ -1,6 +1,7 @@
 // ✅ Client Component — Componente interactivo con event handlers (onClick) que disparan acciones del usuario
 'use client';
 
+import React from "react";
 import { Card } from '@/shared/ui/molecules';
 import { Badge, Button } from '@/shared/ui/atoms';
 import type { Task } from "../types";
@@ -14,7 +15,10 @@ interface Props {
     onDeleteTask: (id: string) => void;
 }
 
-export const TaskCard: React.FC<Props> = ({ task, onChangeStatus, onDeleteTask }) => {
+const TaskCardComponent: React.FC<Props> = ({ task, onChangeStatus, onDeleteTask }) => {
+
+    //evidencia
+    console.log("render TaskCard:", task.id);
 
     const nextStatus =
         task.status === 'todo'
@@ -36,22 +40,18 @@ export const TaskCard: React.FC<Props> = ({ task, onChangeStatus, onDeleteTask }
 
             <div className="card-actions">
                 <Button
-                    onClick={() =>
-                        onChangeStatus(task.id, nextStatus)
-                    }
-                >
+                    onClick={() => onChangeStatus(task.id, nextStatus)}>
                     Cambiar estado
                 </Button>
 
                 <Button
                     variant="danger"
-                    onClick={() =>
-                        onDeleteTask(task.id)
-                    }
-                >
+                    onClick={() => onDeleteTask(task.id)}>
                     Eliminar
                 </Button>
             </div>
         </Card>
     );
-}
+};
+
+export const TaskCard = React.memo(TaskCardComponent);

@@ -1,5 +1,5 @@
 // Custom hook que orquesta la lógica de gestión de tareas usando useReducer
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useCallback, useMemo } from 'react';
 import { taskReducer, initialState } from '../state/taskReducer';
 import { Task } from '../types';
 
@@ -8,15 +8,15 @@ export const useTaskManager = (initialTasks: Task[]) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
   useEffect(() => {
-  if (initialTasks.length > 0) {
-    dispatch({
-      type: 'SET_TASKS',
-      payload: initialTasks,
-    });
-  }
-}, [initialTasks]);
+    if (initialTasks.length > 0) {
+      dispatch({
+        type: 'SET_TASKS',
+        payload: initialTasks,
+      });
+    }
+  }, [initialTasks]);
 
-  const addTask = (title: string) => {
+  const addTask = useCallback((title: string) => {
     dispatch({
       type: 'ADD_TASK',
       payload: {
@@ -25,24 +25,33 @@ export const useTaskManager = (initialTasks: Task[]) => {
         status: 'todo',
       },
     });
-  };
+  }, []);
 
-  const deleteTask = (id: string) => {
+  const deleteTask = useCallback((id: string) => {
     dispatch({ type: 'DELETE_TASK', payload: id });
-  };
+  }, []);
 
-  const changeStatus = (id: string, status: Task['status']) => {
+  const changeStatus = useCallback((id: string, status: Task['status']) => {
     dispatch({
       type: 'CHANGE_STATUS',
       payload: { id, status },
     });
-  };
+  }, []);
 
-  const completedTasks = state.tasks.filter(t => t.status === 'done');
+  const completedTasks = useMemo(
+    () => state.tasks.filter(t => t.status === 'done'),
+    [state.tasks]
+  );
 
-  const pendingTasks = state.tasks.filter(t => t.status !== 'done');
+  const pendingTasks = useMemo(
+    () => state.tasks.filter(t => t.status !== 'done'),
+    [state.tasks]
+  );
 
-  const totalTasks = state.tasks.length;
+  const totalTasks = useMemo(
+    () => state.tasks.length,
+    [state.tasks]
+  );
 
   return {
     tasks: state.tasks,

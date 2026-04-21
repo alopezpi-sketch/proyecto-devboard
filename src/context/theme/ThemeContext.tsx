@@ -13,19 +13,17 @@ interface ThemeContextType {
 export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('Claro');
+  
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as Theme) || 'Claro';
+    }
+    return 'Claro';
+  });
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'Claro' ? 'Oscuro' : 'Claro'));
   };
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
-
 
   useEffect(() => {
     document.body.classList.remove('Claro', 'Oscuro');

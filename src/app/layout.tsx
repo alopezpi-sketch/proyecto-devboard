@@ -1,6 +1,12 @@
 // ✅ Server Component — solo renderiza HTML
 import { AppProviders } from './AppProviders';
 import './globals.css';
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export default function RootLayout({
   children,
@@ -9,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body>
+      <body className={inter.className}>
         <AppProviders>
             {children}
         </AppProviders>

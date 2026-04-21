@@ -1,11 +1,9 @@
 // ✅ Server Component — Componente de carga (Suspense fallback) que renderiza skeleton loader
-import './loading.css';
-
 const SKELETON_COUNT = 3;
 
 export default function Loading() {
   return (
-    <div className="loading-container animate-pulse">
+    <div className="loading-container">
       
       <div className="skeleton-summary">
         <div className="skeleton-box" />
