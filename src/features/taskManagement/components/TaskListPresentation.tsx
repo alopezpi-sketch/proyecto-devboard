@@ -6,6 +6,7 @@ import type { Task } from '../types';
 import { TaskCard } from './TaskCard';
 import { Button } from '@/shared/ui/atoms';
 import { useNotification } from '@/context/notification/NotificationContext';
+import { useTaskSearch } from '../hooks/useTaskSearch';
 import './TaskList.css';
 
 interface Props {
@@ -27,8 +28,9 @@ export const TaskListPresentation = ({
   completedTasks,
   pendingTasks,
 }: Props) => {
-  
-const { showNotification } = useNotification();
+
+  const { showNotification } = useNotification();
+  const { query, setQuery, filteredTasks } = useTaskSearch(tasks);
 
   const { values, errors, touched, isSubmitting, handleSubmit, handleChange, reset } = useForm(
     { title: '' },
@@ -43,12 +45,12 @@ const { showNotification } = useNotification();
   );
 
   const handleAdd = async () => {
-  await handleSubmit(() => {
-    onAddTask(values.title);
-    showNotification('Tarea agregada');
-    reset();
-  });
-};
+    await handleSubmit(() => {
+      onAddTask(values.title);
+      showNotification('Tarea agregada');
+      reset();
+    });
+  };
 
   return (
     <div className="task-container">
@@ -73,17 +75,26 @@ const { showNotification } = useNotification();
         )}
       </div>
 
+      <div className="search-container">
+        <input
+          className="form-input search-input"
+          type="text"
+          placeholder="Buscar tareas"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
+
       <div className="task-summary">
         <p>Total: {totalTasks}</p>
         <p>Completadas: {completedTasks.length}</p>
         <p>Pendientes: {pendingTasks.length}</p>
       </div>
 
-      
-   {!tasks.length && <p>No hay tareas disponibles</p>}
+      {!filteredTasks.length && <p>No hay tareas disponibles</p>}
 
       <div className="task-list">
-        {tasks.map(task => (
+        {filteredTasks.map(task => (
           <TaskCard
             key={task.id}
             task={task}

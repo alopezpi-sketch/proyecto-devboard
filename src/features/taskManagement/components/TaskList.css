@@ -57,3 +57,13 @@
   font-size: 12px;
   margin-top: 4px;
 }
+
+.search-container {
+  margin: 10px 0;
+}
+
+.search-input {
+  width: 52%;
+  padding: 10px;
+  font-size: 14px;
+}

@@ -24,6 +24,18 @@ El hook `useAsync` fue corregido para manejar correctamente dependencias y evita
 ### 🔹 Mejora en manejo de estado
 Se evitó el uso innecesario de `useEffect` para inicialización de estado (ej: ThemeContext).
 
+### 🔹 Lazy Loading con Suspense
+
+Se implementó React.lazy en el componente TaskListPresentation para cargarlo de forma diferida utilizando Suspense.
+
+Esto permite dividir el código (code splitting), reduciendo el tamaño del bundle inicial y mejorando el tiempo de carga de la aplicación.
+
+### 🔹 Debounce en búsqueda
+
+Se implementó un hook personalizado useDebounce con un delay de 300ms para optimizar la búsqueda de tareas, evitando ejecuciones innecesarias en cada pulsación del usuario.
+
+Esto reduce la cantidad de renders y mejora el rendimiento general.
+
 ---
 
 ## 📈 3. Métrica de mejora
@@ -47,9 +59,6 @@ Separación eficiente entre Server Components y Client Components
 
 ### ✔ Uso de Client Components controlados
 Solo componentes necesarios usan `"use client"`
-
-### ✔ Lazy loading implícito
-Next.js carga componentes bajo demanda automáticamente
 
 ### ✔ Optimización de metadata
 Uso de `metadata` para SEO y rendimiento

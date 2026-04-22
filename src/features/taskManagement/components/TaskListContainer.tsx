@@ -1,11 +1,15 @@
 // ✅ Client Component — Contenedor que orquesta useCallback, useAsync, useTaskManager y gestiona el ciclo de carga de datos
 'use client';
 
-import { useCallback } from 'react';
-import { TaskListPresentation } from './TaskListPresentation';
+import { useCallback, lazy, Suspense } from 'react';
 import { TASKS_DATA } from '../utils/data';
 import { useAsync, useTaskManager } from '../hooks';
 
+const TaskListPresentation = lazy(() =>
+  import('./TaskListPresentation').then(module => ({
+    default: module.TaskListPresentation
+  }))
+);
 
 export const TaskListContainer = () => {
 
@@ -23,14 +27,17 @@ export const TaskListContainer = () => {
   if (loading) return <p>Cargando tareas...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  return (<TaskListPresentation
-    tasks={tasks}
-    onAddTask={addTask}
-    onChangeStatus={changeStatus}
-    onDeleteTask={deleteTask}
-    completedTasks={completedTasks}
-    pendingTasks={pendingTasks}
-    totalTasks={totalTasks}
-  />
+  return (
+    <Suspense fallback={<p>Cargando componente...</p>}>
+      <TaskListPresentation
+        tasks={tasks}
+        onAddTask={addTask}
+        onChangeStatus={changeStatus}
+        onDeleteTask={deleteTask}
+        completedTasks={completedTasks}
+        pendingTasks={pendingTasks}
+        totalTasks={totalTasks}
+      />
+    </Suspense>
   );
 };

@@ -24,5 +24,7 @@ test('agrega una tarea desde la UI', async () => {
   fireEvent.change(input, { target: { value: 'Tarea integración' } });
   fireEvent.click(button);
 
-  expect(await screen.findByText('Tarea integración')).toBeInTheDocument();
+  const newTask = await screen.findByText('Tarea integración');
+
+  expect(newTask).toBeInTheDocument();
 });
